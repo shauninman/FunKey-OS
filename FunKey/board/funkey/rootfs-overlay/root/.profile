@@ -1,3 +1,10 @@
+# hijack
+LAUNCH_PATH=/mnt/.system/nano/paks/MinUI.pak/launch.sh
+if [ -f "$LAUNCH_PATH" ]; then
+        "$LAUNCH_PATH" &
+        exit 0
+fi
+
 # ~/.bashrc: executed by bash(1) for non-login shells.
 
 # Note: PS1 and umask are already set in /etc/profile. You should not
