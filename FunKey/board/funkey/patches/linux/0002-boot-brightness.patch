@@ -1,0 +1,12 @@
+diff -u a/arch/arm/boot/dts/sun8i-v3s-funkey.dts b/arch/arm/boot/dts/sun8i-v3s-funkey.dts
+--- a/arch/arm/boot/dts/sun8i-v3s-funkey.dts	2023-06-18 14:43:47.000000000 -0400
++++ b/arch/arm/boot/dts/sun8i-v3s-funkey.dts	2023-06-18 13:36:11.000000000 -0400
+@@ -60,7 +60,7 @@
+ 		compatible = "pwm-backlight";
+ 		pwms = <&pwm 0 40000 1>;
+ 		brightness-levels = <0 1 2 3 8 14 21 32 46 60 80 100>; //2.2 div factor
+-		default-brightness-level = <11>;
++		default-brightness-level = <1>;
+ 		power-supply = <&reg_vcc5v0>;
+ 	};
+ 
