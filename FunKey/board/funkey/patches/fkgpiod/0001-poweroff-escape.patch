@@ -1,0 +1,33 @@
+diff -u a/gpio_mapping.c b/gpio_mapping.c
+--- a/gpio_mapping.c	2023-06-18 14:51:06.000000000 -0400
++++ b/gpio_mapping.c	2023-06-17 19:38:07.000000000 -0400
+@@ -446,10 +446,10 @@
+          * will shutdown the system in 3s anyway
+          */
+         if (val_int_bank_3 & AXP209_INTERRUPT_PEK_LONG_PRESS) {
+-            FK_DEBUG("AXP209 long PEK key press detected\n");
+-            FK_DEBUG("\t--> Execute Shell command \"%s\"\n",
+-                SHELL_COMMAND_SHUTDOWN);
+-            system(SHELL_COMMAND_SHUTDOWN);
++			FK_DEBUG("\t--> Key press and release 1 (ESCAPE)\n");
++            sendKey(1, 1);
++            usleep(1);
++            sendKey(1, 0);
+         }
+     }
+ 
+@@ -514,10 +514,11 @@
+          */
+         if (interrupt_mask & NOE_GPIO_MASK) {
+             FK_DEBUG("NOE detected\n");
+-            FK_DEBUG("\t--> Execute Shell command \"%s\"\n",
+-                SHELL_COMMAND_SHUTDOWN);
++			FK_DEBUG("\t--> Key press and release 1 (ESCAPE)\n");
+             interrupt_mask &= ~NOE_GPIO_MASK;
+-            system(SHELL_COMMAND_SHUTDOWN);
++            sendKey(1, 1);
++            usleep(1);
++            sendKey(1, 0);
+         }
+     }
+ 
