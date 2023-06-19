@@ -1,0 +1,123 @@
+diff --git a/CMake/funkey-s_defs.cmake b/CMake/funkey-s_defs.cmake
+index 87322df..8639627 100644
+--- a/CMake/funkey-s_defs.cmake
++++ b/CMake/funkey-s_defs.cmake
+@@ -1,7 +1,7 @@
+ set(USE_SDL2 OFF)
+ set(FILE_SYSTEM \"/dev/mmcblk0p4\")
+ set(PATH_DEFAULT \"/mnt\")
+-set(PATH_DEFAULT_RIGHT \"/mnt/FunKey\")
++set(PATH_DEFAULT_RIGHT \"/mnt\")
+ set(SCREEN_WIDTH 240)
+ 
+ set(MYKEY_UP SDLK_u) # Up
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 8a4de4e..164bfc7 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -60,8 +60,8 @@ set(DinguxCommander_SRCS
+   dialog.cpp
+   fileLister.cpp
+   fileutils.cpp
+-  fk_instant_play.c
+-  fk_menu.c
++  # fk_instant_play.c
++  # fk_menu.c
+   keyboard.cpp
+   main.cpp
+   panel.cpp
+diff --git a/commander.cpp b/commander.cpp
+index d62b9f9..632e764 100755
+--- a/commander.cpp
++++ b/commander.cpp
+@@ -16,7 +16,7 @@
+ #include "screen.h"
+ #include "sdlutils.h"
+ #include "text_viewer.h"
+-#include "fk_menu.h"
++// #include "fk_menu.h"
+ 
+ #define SPLITTER_LINE_W static_cast<int>(1 * screen.ppu_x)
+ #define X_LEFT static_cast<int>(1 * screen.ppu_x)
+@@ -104,14 +104,14 @@ const bool CCommander::keyPress(const SDL_Event &p_event)
+     CWindow::keyPress(p_event);
+     const auto sym = p_event.key.keysym.sym;
+     const auto &c = config();
+-    if (sym == c.key_menu) {
+-        if (FK_RunMenu(screen.surface) == MENU_RETURN_EXIT) {
+-	    // Quit
+-            m_retVal = -1;
+-	}
+-	return true;
+-    }
+-    if (sym == c.key_system) {
++		//     if (sym == c.key_menu) {
++		//         if (FK_RunMenu(screen.surface) == MENU_RETURN_EXIT) {
++		// 	// Quit
++		//             m_retVal = -1;
++		// }
++		// return true;
++		//     }
++    if (sym == c.key_system || sym == c.key_menu) {
+         if (openSystemMenu()) m_panelSource->refresh();
+         return true;
+     }
+diff --git a/main.cpp b/main.cpp
+index bf5d1b1..6cda28f 100755
+--- a/main.cpp
++++ b/main.cpp
+@@ -13,8 +13,8 @@
+ #include "resourceManager.h"
+ #include "screen.h"
+ #include "sdlutils.h"
+-#include "fk_menu.h"
+-#include "fk_instant_play.h"
++// #include "fk_menu.h"
++// #include "fk_instant_play.h"
+ 
+ // Globals
+ const SDL_Color Globals::g_colorTextNormal = {COLOR_TEXT_NORMAL};
+@@ -68,7 +68,7 @@ int main(int argc, char *argv[])
+                 std::cerr << "--res-dir requires an argument\n";
+                 return 1;
+             }
+-            std::string res_dir = argv[++i];
++            res_dir = argv[++i];
+         } else if (std::strcmp(argv[i], "--show_exec_error") == 0) {
+             if (i == argc - 1) {
+                 std::cerr << "--show_exec_error requires an argument\n";
+@@ -120,10 +120,10 @@ int main(int argc, char *argv[])
+ #endif
+ 
+     // Init menu
+-    FK_InitMenu();
++    // FK_InitMenu();
+ 
+     // Init Instant Play
+-    FK_InitInstantPlay();
++    // FK_InitInstantPlay();
+ 
+     // Create instances
+     CResourceManager::instance();
+diff --git a/sdlutils.cpp b/sdlutils.cpp
+index fe60622..45aaadb 100755
+--- a/sdlutils.cpp
++++ b/sdlutils.cpp
+@@ -15,7 +15,7 @@
+ #include "screen.h"
+ #include "sdl_ttf_multifont.h"
+ #include "sdl_ptrs.h"
+-#include "fk_menu.h"
++// #include "fk_menu.h"
+ 
+ namespace SDL_utils {
+ 
+@@ -229,7 +229,7 @@ void hastalavista(void)
+     // Free resources
+     CResourceManager::instance().sdlCleanup();
+     // Quit SDL
+-    FK_EndMenu();
++    // FK_EndMenu();
+     TTF_Quit();
+     IMG_Quit();
+     SDL_Quit();
