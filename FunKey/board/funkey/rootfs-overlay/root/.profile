@@ -1,7 +1,7 @@
 # hijack
 LAUNCH_PATH=/mnt/.system/nano/paks/MinUI.pak/launch.sh
 if [ -f "$LAUNCH_PATH" ]; then
-        "$LAUNCH_PATH" &
+        "$LAUNCH_PATH"
         exit 0
 fi
 
